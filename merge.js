@@ -1,5 +1,9 @@
 #!/usr/bin/env osascript -l JavaScript
 
+function escape(str) {
+  return str.replace(/'/g, "'\\''")
+}
+
 function run(argv) {
   var app = Application.currentApplication()
   app.includeStandardAdditions = true
@@ -7,9 +11,9 @@ function run(argv) {
   var word = Application('Microsoft Word')
 
   app.doShellScript('mkdir -p /tmp/word_git')
-  app.doShellScript('cp "' + argv[0] + '" /tmp/word_git/base.docx')
-  app.doShellScript('cp "' + argv[1] + '" /tmp/word_git/local.docx')
-  app.doShellScript('cp "' + argv[2] + '" /tmp/word_git/remote.docx')
+  app.doShellScript("cp '" + escape(argv[0]) + "' /tmp/word_git/base.docx")
+  app.doShellScript("cp '" + escape(argv[1]) + "' /tmp/word_git/local.docx")
+  app.doShellScript("cp '" + escape(argv[2]) + "' /tmp/word_git/remote.docx")
 
   word.open('/tmp/word_git/local.docx', {addToRecentFiles: false})
   word.documents['local.docx'].close()
@@ -37,5 +41,5 @@ function run(argv) {
   app.displayDialog('Merge your changes now.', {buttons: ["Done Merging"]})
   word.documents['merged.docx'].close({saving: "yes"})
 
-  app.doShellScript('cp /tmp/word_git/remote.docx "' + argv[3] + '"')
+  app.doShellScript("cp /tmp/word_git/remote.docx '" + escape(argv[3]) + "'")
 }

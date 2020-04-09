@@ -1,11 +1,15 @@
 #!/usr/bin/env osascript -l JavaScript
 
+function escape(str) {
+  return str.replace(/'/g, "'\\''")
+}
+
 function run(argv) {
   var app = Application.currentApplication()
   app.includeStandardAdditions = true
   app.doShellScript('mkdir -p /tmp/word_git')
-  app.doShellScript('cp "' + argv[0] + '" /tmp/word_git/doc1.docx')
-  app.doShellScript('cp "' + argv[1] + '" /tmp/word_git/doc2.docx')
+  app.doShellScript("cp '" + escape(argv[0]) + "' /tmp/word_git/doc1.docx")
+  app.doShellScript("cp '" + escape(argv[1]) + "' /tmp/word_git/doc2.docx")
   var word = Application('Microsoft Word')
   word.open('/tmp/word_git/doc2.docx', {addToRecentFiles: false})
   word.documents['doc2.docx'].close()
