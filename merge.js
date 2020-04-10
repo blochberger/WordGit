@@ -41,5 +41,5 @@ function run(argv) {
   app.displayDialog('Merge your changes now.', {buttons: ["Done Merging"]})
   word.documents['merged.docx'].close({saving: "yes"})
 
-  app.doShellScript("cp /tmp/word_git/remote.docx '" + escape(argv[3]) + "'")
+  app.doShellScript("cp /tmp/word_git/merged.docx '" + escape(argv[3]) + "'")
 }
